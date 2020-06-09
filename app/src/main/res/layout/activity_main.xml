@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="#e7f3fe"
+    >
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Koszt zakupów"
+        android:textSize="30dp"/>
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text"
+        android:layout_centerHorizontal="true"
+        android:text="0 zł"
+        android:textSize="30dp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleViewer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="104dp"
+        android:padding="4dp"
+        android:scrollbars="vertical"
+        />
+
+        <Button
+            android:id="@+id/addItem"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/add"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            />
+</RelativeLayout>
