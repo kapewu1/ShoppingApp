@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.renderscript.Sampler;
 import android.view.View;
@@ -25,33 +27,21 @@ public class MainActivity extends AppCompatActivity  implements  BottomSlideAddM
     private Button addButton;
     private ArrayList<ShoppingItem> mShoppingItems;
     private TextView total_price ;
+    private SQLiteDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ShoppingDBHelper dbHelper = new ShoppingDBHelper(this);
+        database = dbHelper.getWritableDatabase();
+
 
 
         total_price = findViewById(R.id.price);
 
-
         createItemList();
         buildRecycleView();
-       //h setTotalPrice();
-
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-
-            }
-        });
-
 
         addButton = findViewById(R.id.addItem);
 
@@ -95,7 +85,45 @@ public class MainActivity extends AppCompatActivity  implements  BottomSlideAddM
 
     private void createItemList() {
         mShoppingItems = new ArrayList<>();
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+    }
 
+    private  void addItemToDb(ShoppingItem item){
+        ContentValues cv =  new ContentValues();
+
+        cv.put(ShoppingConst.ShopEntry.COLUMN_NAME,item.getItemTitle());
+        cv.put(ShoppingConst.ShopEntry.COLUMN_AMOUNT,item.getItemAmount());
+        cv.put(ShoppingConst.ShopEntry.COLUMN_PRICE, item.getItemPrice());
+
+        database.insert(ShoppingConst.ShopEntry.TABLE_NAME,null,cv);
 
     }
 
