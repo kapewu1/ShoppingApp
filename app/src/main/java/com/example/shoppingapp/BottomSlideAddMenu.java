@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,19 +34,37 @@ public class BottomSlideAddMenu extends BottomSheetDialogFragment {
         send_values.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String price = String.valueOf(countItemPrice());
 
+                if(isEmpty(item_name)){
+                    Toast.makeText(getActivity(),
+                            "Podaj nazwe produktu", Toast.LENGTH_LONG).show();
+                }
+               else if(isEmpty(item_amount)){
+                    Toast.makeText(getActivity(),
+                            "Podaj ilość produktów", Toast.LENGTH_LONG).show();
+                }
+               else if(isEmpty(item_price)){
+                    Toast.makeText(getActivity(),
+                            "Podaj cenę produktu", Toast.LENGTH_LONG).show();
+                }
+               else {
+                    String price = String.valueOf(countItemPrice());
+                    ShoppingItem item = new ShoppingItem(R.drawable.fruit, item_name.getText().toString(), price
+                            , Double.parseDouble(item_amount.getText().toString()));
 
-
-                ShoppingItem item= new ShoppingItem(R.drawable.fruit,item_name.getText().toString(),price
-                ,Double.parseDouble(item_amount.getText().toString()));
-
-                mListener.onButtonClicked(item);
-                dismiss();
+                    mListener.onButtonClicked(item);
+                    dismiss();
+                }
             }
         });
 
         return v;
+    }
+    private boolean isEmpty(EditText etText) {
+        if (etText.getText().toString().trim().length() > 0)
+            return false;
+
+        return true;
     }
     private double countItemPrice()
     {
@@ -56,8 +75,8 @@ public class BottomSlideAddMenu extends BottomSheetDialogFragment {
 
         price = item_quant * item_value;
 
-        double v = Math.round(price * 100.0) / 100.0;
-        return v;
+        double value = Math.round(price * 100.0) / 100.0;
+        return value;
   }
 
     public interface BottomSlideMenuListener{

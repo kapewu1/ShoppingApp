@@ -36,13 +36,11 @@ public class MainActivity extends AppCompatActivity  implements  BottomSlideAddM
         ShoppingDBHelper dbHelper = new ShoppingDBHelper(this);
         database = dbHelper.getWritableDatabase();
 
-
-
         total_price = findViewById(R.id.price);
 
         createItemList();
         buildRecycleView();
-
+        setTotalPrice();
         addButton = findViewById(R.id.addItem);
 
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -53,20 +51,18 @@ public class MainActivity extends AppCompatActivity  implements  BottomSlideAddM
             }
         });
     }
-
     private void setTotalPrice() {
         double shop_price = 0;
         double value=0;
+        double amount=0;
         for (ShoppingItem item: mShoppingItems
              ) {
              value = Double.parseDouble(item.getItemPrice());
-            shop_price += value;
+             amount = item.getItemAmount();
+             shop_price += value * amount;
         }
         double v = Math.round(shop_price * 100.0) / 100.0;
-
         String textValue = Double.toString(v);
-
-
         total_price.setText(textValue);
     }
 
@@ -85,38 +81,22 @@ public class MainActivity extends AppCompatActivity  implements  BottomSlideAddM
 
     private void createItemList() {
         mShoppingItems = new ArrayList<>();
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
-        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.2",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.0",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.0",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.0",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.0",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.0",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.0",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.0",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.0",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.0",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.0",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.0",5));
+        mShoppingItems.add(new ShoppingItem(R.drawable.fruit,"produkt","6.0",5));
+
     }
 
-    private  void addItemToDb(ShoppingItem item){
+    private void addItemToDb(ShoppingItem item){
         ContentValues cv =  new ContentValues();
 
         cv.put(ShoppingConst.ShopEntry.COLUMN_NAME,item.getItemTitle());
@@ -132,6 +112,7 @@ public class MainActivity extends AppCompatActivity  implements  BottomSlideAddM
     public void onButtonClicked(ShoppingItem newItem) {
         mShoppingItems.add(newItem);
         itemAdapter.notifyDataSetChanged();
+        addItemToDb(newItem);
         setTotalPrice();
     }
 }
